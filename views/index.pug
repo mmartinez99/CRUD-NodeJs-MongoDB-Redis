@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+
+    a(href='/All')
+        button.btn.btn-primary(type='button') Liste des bibliotheques JSON
+        a(href='/AllBibliotheque')
+            button.btn.btn-primary(type='button') Liste des bibliotheques
+        br
+        br
+        a(href='/AddNewBibli')
+            button.btn.btn-primary(type='button') Ajouter une bibliotheque

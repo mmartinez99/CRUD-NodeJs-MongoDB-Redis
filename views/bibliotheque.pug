@@ -1,0 +1,35 @@
+extends layout
+block content
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4#myModalLabel.modal-title
+                        | Add Bibliotheque
+
+                    form(method='POST' action='/bibliotheque')
+                        span telephone
+
+                        input(type='text' name='telephone' value=telephone)
+                        p
+                            span commune
+                            input(type='text' name='commune' value=commune)
+                        p
+                            span services_proposes
+                            input(type='text' name='services_proposes' value=services_proposes)
+                        p
+                            span nomrue
+                            input(type='text' name='nomrue' value=nomrue)
+                        p
+                            span descoll
+                            input(type='text' name='descoll' value=descoll)
+                        p
+                            span codepostal
+                            input(type='text' name='codepostal' value=codepostal)
+                        p
+                            span nometablissement
+                            input(type='text' name='nometablissement' value=nometablissement)
+                        p
+                            span heuresouverture
+                            input(type='text' name='heuresouverture' value=heuresouverture)
+                        p
+                            input(type='submit' value='Ajouter')

@@ -1,0 +1,47 @@
+extends layout
+block content
+       .modal-dialog
+              .modal-content
+                     .modal-header
+                            h4#myModalLabel.modal-title
+                                   | Edit Bibliotheque
+
+                            each d in data
+
+                                form(method='POST' action='/edit/'+d._id)
+
+                                    p
+                                    span id
+                                    input(type='text' name='id' value=d._id)
+                                    p
+                                    span telephone
+                                    input(type='text' name='telephone' value=d.telephone)
+                                    p
+                                    span commune
+                                    input(type='text' name='commune' value=d.commune)
+                                    p
+                                    span services_proposes
+                                    input(type='text' name='services_proposes' value=d.services_proposes)
+                                    p
+                                    span nomrue
+                                    input(type='text' name='nomrue' value=d.nomrue)
+                                    p
+                                    span descoll
+                                    input(type='text' name='descoll' value=d.descoll)
+                                    p
+                                    span codepostal
+                                    input(type='text' name='codepostal' value=d.codepostal)
+                                    p
+                                    span nometablissement
+                                    input(type='text' name='nometablissement' value=d.nometablissement)
+                                    p
+                                    span heuresouverture
+                                    input(type='text' name='heuresouverture' value=d.heuresouverture)
+
+                                    br
+                                    br
+                                    a(href='/bibliotheque/delete/' +d._id)
+                                        button.btn.btn-primary(type='button') Del
+                                    a(href='/edit/' + d._id)
+                                        button.btn.btn-primary(type='button') edit
+                                    input(type='submit' value='Modifier')
