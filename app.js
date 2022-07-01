@@ -1,28 +1,28 @@
-const   express     = require("express"),
-    path=require('path')
-app         = express(),
-    mongoose    = require("mongoose"),
-    bodyParser  = require("body-parser"),
-    multer      = require("multer"),
-    upload      = multer()
-clearCache   = require('./services/cache')
+const express = require("express"),
+    path = require('path')
+app = express(),
+    mongoose = require("mongoose"),
+    bodyParser = require("body-parser"),
+    multer = require("multer"),
+    upload = multer()
+clearCache = require('./services/cache')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 // MONGODB SETUP
-app.set('views',path.join(__dirname,'views'));
-app.set('view engine','pug');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 
-mongoose.connect('mongodb://localhost:27017/bibliothequeredismongo',{
+mongoose.connect('mongodb://localhost:27017/bibliothequeredismongo', {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
 mongoose.connection
-    .once('open', ()=>console.log('connected to database'))
-    .on('error',(err)=>console.log("connection to database failed!!",err))
+    .once('open', () => console.log('connected to database'))
+    .on('error', (err) => console.log("connection to database failed!!", err))
 
 const bibliotheque = require('./models/bibliotheque');
 
@@ -33,18 +33,18 @@ app.use(express.static('public'));
 
 
 //Index
-app.get('/',(req,res)=>{
-    res.render('index', { title: 'Les Bibliotheques' });
+app.get('/', (req, res) => {
+    res.render('index', {title: 'Les Bibliotheques'});
 
 })
 
 //Toutes les bibliotheques JSON
-app.get('/All',(req,res)=>{
+app.get('/All', (req, res) => {
     bibliotheque.find({})
-        .then((data)=>{
+        .then((data) => {
             res.json({found: true, data: data});
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.log(err)
             res.json({found: false, data: null});
         })
@@ -52,54 +52,54 @@ app.get('/All',(req,res)=>{
 
 })
 //Toutes les bibliotheques en PUG
-app.get('/AllBibliotheque',(req,res)=>{
+app.get('/AllBibliotheque', (req, res) => {
     bibliotheque.find({})
-        .then(data=>res.render('allBiblio',{tableaubibli: data}),{title:'Toutes les Bibliotheques'} )
+        .then(data => res.render('allBiblio', {tableaubibli: data}), {title: 'Toutes les Bibliotheques'})
 })
 
 
 //Formualire ADD
-app.get('/AddNewBibli',(req,res)=>{
-    res.render('bibliotheque', { title: 'Les Bibliotheques' });
+app.get('/AddNewBibli', (req, res) => {
+    res.render('bibliotheque', {title: 'Les Bibliotheques'});
 })
 //ADD Bibli
-app.post('/bibliotheque',(req,res)=>{
+app.post('/bibliotheque', (req, res) => {
     new bibliotheque(req.body)
         .save()
-        .then((v_data)=>{
+        .then((v_data) => {
             console.log(v_data);
             res.json({save: true})
-            clearCache(v_data.nometablissement)
+            clearCache(v_data._doc.nometablissement) // supprime dans Redis
 
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.log(err)
             res.json({save: false})
         })
 })
 
-app.get('/:id/', (req,res)=>{
+app.get('/:id/', (req, res) => {
     bibliotheque.find({_id: req.params['id']})
-        .cache(req.params['id'])
-        .then((data)=>{
-            if(data){
+        .cache(req.body.nometablissement) // ecrit la 1 ere fois dans Redis Si dans Redis id existe alors elle l'affiche sinon elle l'insere (Gain de temps + rapide)
+        .then((data) => {
+            if (data) {
                 res.json({found: true, data: data})
-            }else{
+            } else {
                 res.json({found: false, data: null})
             }
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.log(err)
             res.json({found: false, data: null})
         })
 });
 
-app.get('/bibli/:id/', (req,res)=> {
+app.get('/bibli/:id/', (req, res) => {
     bibliotheque.find({_id: req.params['id']})
-        .cache(req.params['id'])
-        .then((data)=>{
-            if(data){
-                res.render('editBibli',{data: data})
+         .cache(req.params['id']) // ecrit la 1 ere fois dans Redis Si dans Redis id existe alors elle l'affiche sinon elle l'insere
+        .then((data) => {
+            if (data) {
+                res.render('editBibli', {data: data})
 
             }
 
@@ -107,59 +107,8 @@ app.get('/bibli/:id/', (req,res)=> {
 
 });
 
-//
-// Toutes les biblis dont les communes est en parametre JSON
-// app.get('/commune/:commune/', (req,res)=>{
-//     bibliotheque.find({commune: req.params['commune']})
-//                .cache(req.params['commune'])
-//                 .then((data)=>{
-//                     if(data){
-//                         res.json({found: true, data: data})
-//                     }else{
-//                         res.json({found: false, data: null})
-//                     }
-//                 })
-//                 .catch((err)=>{
-//                     console.log(err)
-//                     res.json({found: false, data: null})
-//                 })
-//
-// })
-
-// Toutes les biblis dont les communes est en parametre PUG
-// app.get('/communePug/:commune/', (req,res)=>{
-//     bibliotheque.find({commune: req.params['commune']})
-//         .cache(req.params['commune'])
-//         .then((data)=>{
-//             if(data){
-//                 res.json({found: true, data: data})
-//             }else{
-//                 res.json({found: false, data: null})
-//             }
-//         })
-// })
-
-// app.get('/:commune/:codepostal', (req,res)=>{
-//     bibliotheque.findOne({codepostal: req.params['codepostal'],commune: req.params['commune']})
-//         .cache(req.params['codepostal'])
-//         .then((data)=>{
-//             if(data){
-//                 res.json({found: true, data: data})
-//             }else{
-//                 res.json({found: false, data: null})
-//             }
-//         })
-//         .catch((err)=>{
-//             console.log(err)
-//             res.json({found: false, data: null})
-//         })
-// })
-
-
-
-
 //DELETE PUG
-app.get('/bibliotheque/delete/:id', function(req, res){
+app.get('/bibliotheque/delete/:id', function (req, res) {
     // bibliotheque.del(req.params['id']);
     bibliotheque.deleteOne({_id: req.params['id']})
         .then(
@@ -180,7 +129,8 @@ app.get('/bibliotheque/delete/:id', function(req, res){
 
 //DELETE JSON
 app.delete('/bibli/delete/:id', (req, res, next) => {
-    bibliotheque.deleteOne({_id: req.params['id']}).then(
+    bibliotheque.deleteOne({_id: req.params['id']})
+        .then(
         () => {
             res.status(200).json({
                 message: 'Bibli Supprimé!'
@@ -196,7 +146,7 @@ app.delete('/bibli/delete/:id', (req, res, next) => {
 });
 
 app.put('/edit/:id', (req, res, next) => {
-    const bibliothequeUpdate =  bibliotheque({
+    const bibliothequeUpdate = bibliotheque({
         _id: req.params['id'],
         telephone: req.body['telephone'],
         commune: req.body.commune,
@@ -207,7 +157,8 @@ app.put('/edit/:id', (req, res, next) => {
         nometablissement: req.body.nometablissement,
         heuresouverture: req.body.heuresouverture
     });
-    bibliotheque.updateOne({_id: req.params['id']}, bibliothequeUpdate).then(
+    bibliotheque.updateOne({_id: req.params['id']}, bibliothequeUpdate)
+        .then(
         () => {
             res.json({save: true})
         }
@@ -220,7 +171,7 @@ app.put('/edit/:id', (req, res, next) => {
     );
 });
 app.post('/edit/:id', (req, res, next) => {
-    const bibliothequeUpdate =  bibliotheque({
+    const bibliothequeUpdate = bibliotheque({
         _id: req.params['id'],
         telephone: req.body['telephone'],
         commune: req.body.commune,
@@ -243,5 +194,5 @@ app.post('/edit/:id', (req, res, next) => {
         }
     );
 });
-app.listen(3000,()=>console.log("server started at port:3000"))
+app.listen(3000, () => console.log("server started at port:3000"))
 

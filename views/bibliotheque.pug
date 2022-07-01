@@ -4,32 +4,31 @@ block content
             .modal-content
                 .modal-header
                     h4#myModalLabel.modal-title
-                        | Add Bibliotheque
+                        | Ajouter Bibliotheque
 
                     form(method='POST' action='/bibliotheque')
-                        span telephone
-
-                        input(type='text' name='telephone' value=telephone)
-                        p
+                            span telephone
+                            input(type='text' name='telephone' value=telephone)
+                            br
                             span commune
                             input(type='text' name='commune' value=commune)
-                        p
-                            span services_proposes
+                            br
+                            span services
                             input(type='text' name='services_proposes' value=services_proposes)
-                        p
+                            br
                             span nomrue
                             input(type='text' name='nomrue' value=nomrue)
-                        p
+                            br
                             span descoll
                             input(type='text' name='descoll' value=descoll)
-                        p
+                            br
                             span codepostal
                             input(type='text' name='codepostal' value=codepostal)
-                        p
-                            span nometablissement
+                            br
+                            span Nom lieu
                             input(type='text' name='nometablissement' value=nometablissement)
-                        p
-                            span heuresouverture
+                            br
+                            span Horaire
                             input(type='text' name='heuresouverture' value=heuresouverture)
-                        p
+                            br
                             input(type='submit' value='Ajouter')

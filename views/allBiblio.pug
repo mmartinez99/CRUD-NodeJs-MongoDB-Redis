@@ -1,40 +1,28 @@
 extends layout
 block content
-    h4  Les Bibliotheque
+    br
+    table.table
+        thead
+            tr
+                th(scope='col') telephone
+                th(scope='col') commune
+                th(scope='col') nomrue
+                th(scope='col') codepostal
+                th(scope='col') Nom
+                th(scope='col') Actions
+        tbody
+           each bibli in tableaubibli
 
-                a(href='/AddNewBibli')
-                    button.btn.btn-primary(type='button') Ajouter une bibliotheque
-                each bibli in tableaubibli
-                        div.col-md-3
-                            br
-                            label(for='telephone') telephone :
-                            input.form-control(type='text', value= bibli.telephone name='telephone')
-                            br
-                            label(for='commune') commune :
-                            input.form-control(type='text', value= bibli.commune name='commune')
-                            br
-                            label(for='services_proposes') services_proposes :
-                            input.form-control(type='text', value= bibli.services_proposes name='services_proposes')
-                            br
-                            label(for='nomrue') nomrue :
-                            input.form-control(type='text', value= bibli.nomrue name='nomrue')
-                            br
-                            br
-                            label(for='descoll') descoll :
-                            input.form-control(type='text', value= bibli.descoll name='descoll')
-                            br
-                            label(for='codepostal') codepostal :
-                            input.form-control(type='text', value= bibli.codepostal name='codepostal')
-                            br
-                            label(for='nometablissement') nometablissement :
-                            input.form-control(type='text', value= bibli.nometablissement name='nometablissement')
-                            br
-                            br
-                            label(for='heuresouverture') heuresouverture :
-                            input.form-control(type='text', value= bibli.heuresouverture name='heuresouverture')
+            tr
+                td=bibli.telephone
+                td=bibli.commune
+                td=bibli.nomrue
+                td=bibli.codepostal
+                td=bibli.nometablissement
+                td
+                     a(href='/bibliotheque/delete/' + bibli._id)
+                                           button.btn.btn-primary(type='button') Del
 
-                            a(href='/bibliotheque/delete/' + bibli._id)
-                                button.btn.btn-primary(type='button') Del
-
-                            a(href='/bibli/' + bibli._id)
-                                button.btn.btn-primary(type='button') Edit
+                td
+                    a(href='/bibli/' + bibli._id)
+                                            button.btn.btn-primary(type='button') Edit

@@ -1,14 +1,25 @@
 extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
+    .row
+        .col-sm-4
+            .card
+                .card-body
+                    h5.card-title JSON
+                    p.card-text Listes des Bibliotheques .
+                    a.btn.btn-primary(href='/All') Voir
+        .col-sm-4
+            .card
+                .card-body
+                    h5.card-title Bibliotheques
+                    p.card-text Toutes les bibliotheques.
+                    a.btn.btn-primary(href='/AllBibliotheque') Voir
+        .col-sm-4
+            .card
+                .card-body
+                    h5.card-title Ajouter
+                    p.card-text Ajouter une nouvelle bibliotheque
+                    a.btn.btn-primary(href='/AddNewBibli') Voir
 
-    a(href='/All')
-        button.btn.btn-primary(type='button') Liste des bibliotheques JSON
-        a(href='/AllBibliotheque')
-            button.btn.btn-primary(type='button') Liste des bibliotheques
-        br
-        br
-        a(href='/AddNewBibli')
-            button.btn.btn-primary(type='button') Ajouter une bibliotheque
+
+

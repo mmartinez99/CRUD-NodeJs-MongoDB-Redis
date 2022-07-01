@@ -1,47 +1,43 @@
 extends layout
 block content
-       .modal-dialog
-              .modal-content
-                     .modal-header
-                            h4#myModalLabel.modal-title
-                                   | Edit Bibliotheque
+    .modal-dialog
+        .modal-content
+            .modal-header
+                h4#myModalLabel.modal-title
+                    | Modifier Bibliotheque
+                .modal-body
+                    each d in data
 
-                            each d in data
+                        form(method='POST' action='/edit/'+d._id)
 
-                                form(method='POST' action='/edit/'+d._id)
-
-                                    p
-                                    span id
-                                    input(type='text' name='id' value=d._id)
-                                    p
-                                    span telephone
-                                    input(type='text' name='telephone' value=d.telephone)
-                                    p
-                                    span commune
-                                    input(type='text' name='commune' value=d.commune)
-                                    p
-                                    span services_proposes
-                                    input(type='text' name='services_proposes' value=d.services_proposes)
-                                    p
-                                    span nomrue
-                                    input(type='text' name='nomrue' value=d.nomrue)
-                                    p
-                                    span descoll
-                                    input(type='text' name='descoll' value=d.descoll)
-                                    p
-                                    span codepostal
-                                    input(type='text' name='codepostal' value=d.codepostal)
-                                    p
-                                    span nometablissement
-                                    input(type='text' name='nometablissement' value=d.nometablissement)
-                                    p
-                                    span heuresouverture
-                                    input(type='text' name='heuresouverture' value=d.heuresouverture)
-
-                                    br
-                                    br
-                                    a(href='/bibliotheque/delete/' +d._id)
-                                        button.btn.btn-primary(type='button') Del
-                                    a(href='/edit/' + d._id)
-                                        button.btn.btn-primary(type='button') edit
-                                    input(type='submit' value='Modifier')
+                             span id
+                             input(type='text' name='id' value=d._id)
+                             br
+                             span telephone
+                             input(type='text' name='telephone' value=d.telephone)
+                             br
+                             span commune
+                             input(type='text' name='commune' value=d.commune)
+                             br
+                             span services
+                             input(type='text' name='services_proposes' value=d.services_proposes)
+                             br
+                             span nomrue
+                             input(type='text' name='nomrue' value=d.nomrue)
+                             br
+                             span descoll
+                             input(type='text' name='descoll' value=d.descoll)
+                             br
+                             span codepostal
+                             input(type='text' name='codepostal' value=d.codepostal)
+                             br
+                             span nom lieu
+                             input(type='text' name='nometablissement' value=d.nometablissement)
+                             br
+                             span horaire
+                             input(type='text' name='heuresouverture' value=d.heuresouverture)
+                             br
+                             br
+                             a(href='/bibliotheque/delete/' + d._id)
+                                button.btn.btn-primary(type='button') Supprimer
+                             input(type='submit' value='Modifier' class="btn btn-primary")

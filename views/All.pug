@@ -3,36 +3,36 @@ extends layout
 block content
     h6 Toutes Les Pizzas
 
-    each bibli2 in tableaubibli2
+    each bibli in tableaubibli
         div.form-group
             label(for='telephone') telephone :
-            input.form-control(type='text', placeholder= bibli2.telephone name='telephone')
+            input.form-control(type='text', placeholder= bibli.telephone name='telephone')
             br
             label(for='commune') commune :
-            input.form-control(type='text', placeholder= bibli2.commune name='commune')
+            input.form-control(type='text', placeholder= bibli.commune name='commune')
             br
             label(for='services_proposes') services_proposes :
-            input.form-control(type='text', placeholder= bibli2.services_proposes name='services_proposes')
+            input.form-control(type='text', placeholder= bibli.services_proposes name='services_proposes')
             br
             label(for='nomrue') nomrue :
-            input.form-control(type='text', placeholder= bibli2.nomrue name='nomrue')
+            input.form-control(type='text', placeholder= bibli.nomrue name='nomrue')
             br
             br
             label(for='descoll') descoll :
-            input.form-control(type='text', placeholder= bibli2.descoll name='descoll')
+            input.form-control(type='text', placeholder= bibli.descoll name='descoll')
             br
             label(for='codepostal') codepostal :
-            input.form-control(type='text', placeholder= bibli2.codepostal name='codepostal')
+            input.form-control(type='text', placeholder= bibli.codepostal name='codepostal')
             br
             label(for='nometablissement') nometablissement :
-            input.form-control(type='text', placeholder= bibli2.nometablissement name='nometablissement')
+            input.form-control(type='text', placeholder= bibli.nometablissement name='nometablissement')
             br
             br
             label(for='heuresouverture') heuresouverture :
-            input.form-control(type='text', placeholder= bibli2.heuresouverture name='heuresouverture')
+            input.form-control(type='text', placeholder= bibli.heuresouverture name='heuresouverture')
 
-            a(href='/bibli2otheque/del/' + bibli2.nometablissement)
+            a(href='/bibliotheque/del/' + bibli.nometablissement)
                 button.btn.btn-primary(type='button') Del
 
-            a(href='/bibli2otheque/edit/' + bibli2.nometablissement)
+            a(href='/bibliotheque/edit/' + bibli.nometablissement)
                 button.btn.btn-primary(type='button') Edit
