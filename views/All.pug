@@ -30,7 +30,9 @@ block content
             br
             label(for='heuresouverture') heuresouverture :
             input.form-control(type='text', placeholder= bibli.heuresouverture name='heuresouverture')
-
+            br
+                label(for='refBibli') refBibli :
+                input.form-control(type='text', placeholder= bibli.refBibli name='refBibli')
             a(href='/bibliotheque/del/' + bibli.nometablissement)
                 button.btn.btn-primary(type='button') Del
 

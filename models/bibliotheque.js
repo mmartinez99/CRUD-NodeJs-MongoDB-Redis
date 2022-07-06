@@ -10,7 +10,11 @@ const bibliothequeSchema = new mongoose.Schema({
     descoll:String,
     codepostal: Number,
     nometablissement:String,
-    heuresouverture:String
+    heuresouverture:String,
+    refBibli : {
+        type:String,
+        unique:true
+}
 });
 
 const bibliotheque = mongoose.model('bibliothequeList',bibliothequeSchema);

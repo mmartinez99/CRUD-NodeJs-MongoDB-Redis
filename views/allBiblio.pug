@@ -9,6 +9,8 @@ block content
                 th(scope='col') nomrue
                 th(scope='col') codepostal
                 th(scope='col') Nom
+                th(scope='col') refBibli
+
                 th(scope='col') Actions
         tbody
            each bibli in tableaubibli
@@ -19,10 +21,12 @@ block content
                 td=bibli.nomrue
                 td=bibli.codepostal
                 td=bibli.nometablissement
+                td=bibli.refBibli
+
                 td
                      a(href='/bibliotheque/delete/' + bibli._id)
                                            button.btn.btn-primary(type='button') Del
 
                 td
-                    a(href='/bibli/' + bibli._id)
+                    a(href='/bibli/' + bibli.refBibli)
                                             button.btn.btn-primary(type='button') Edit
